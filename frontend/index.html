@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>닥터필 챗봇</title>
+    <link rel="stylesheet" href="chat.css" />
+  </head>
+  <body>
+    <div id="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <button id="new-chat" class="btn-new">＋ 새&nbsp;채팅</button>
+        </header>
+
+        <nav>
+          <ul id="history-list" class="history-list"></ul>
+        </nav>
+
+        <footer class="sidebar-footer">
+          <small>© 2025 닥터필</small>
+        </footer>
+      </aside>
+
+      <!-- Main Pane -->
+      <main class="chatpane">
+        <!-- 첫 화면 -->
+        <section id="welcome" class="welcome">
+          <img src="logo.png" alt="닥터필 로고" class="welcome-logo" />
+          <h2>닥터필 챗봇</h2>
+        </section>
+
+        <!-- 메시지 영역 -->
+        <section id="messages" class="messages hidden"></section>
+
+        <!-- 입력 폼 -->
+        <form id="chat-form" class="chat-form hidden" autocomplete="off">
+          <input
+            id="user-input"
+            class="chat-input"
+            type="text"
+            placeholder="메시지를 입력하고 Enter"
+            required
+          />
+          <button type="submit" class="send-btn">전송</button>
+        </form>
+      </main>
+    </div>
+
+    <script src="chat.js"></script>
+  </body>
+</html>
