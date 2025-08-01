@@ -129,6 +129,18 @@ body {
   align-self: flex-start;
   background: var(--bot-msg);
 }
+.mic-btn {
+  background: none;
+  border: none;
+  font-size: 4px;
+  margin-left: 1px;
+  cursor: pointer;
+}
+.mic-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
 
 /* Input Form */
 .chat-form {

@@ -6,6 +6,40 @@ const $newChatBtn = document.getElementById('new-chat');
 const $historyList = document.getElementById('history-list');
 const $welcome = document.getElementById('welcome');
 
+// STT 인식 가능여부 확인
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition;
+if (SpeechRecognition) {
+  recognition = new SpeechRecognition();
+  recognition.lang = 'ko-KR';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.addEventListener('result', (e) => {
+    const transcript = e.results[0][0].transcript.trim();
+    $input.value = transcript;
+    // 자동 전송
+    $form.dispatchEvent(
+      new Event('submit', { cancelable: true, bubbles: true })
+    );
+  });
+
+  recognition.addEventListener('error', (e) => {
+    console.error('음성 인식 오류:', e.error);
+  });
+} else {
+  console.warn('SpeechRecognition API 지원 불가');
+}
+
+// existing: const $form = …
+const $micBtn = document.getElementById('mic-btn');
+
+$micBtn.addEventListener('click', () => {
+  if (!recognition) return;
+  recognition.start();
+});
+
 /* 상태 */
 let chats = loadChats();
 let currentId = null;
@@ -69,10 +103,18 @@ function appendMessage(text, sender = 'user', save = true) {
   div.textContent = text;
   $messages.appendChild(div);
 
+  // ───────── TTS ─────────
+  if (sender === 'bot' && 'speechSynthesis' in window) {
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'ko-KR';
+    window.speechSynthesis.speak(utt);
+  }
+
   if (save && currentId) {
     chats[currentId].messages.push({ text, sender });
     saveChats();
   }
+  $messages.scrollTop = $messages.scrollHeight;
 }
 
 /* 새 채팅 */
